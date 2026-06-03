@@ -25,6 +25,11 @@
 
   #overlay { position:fixed; top:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(circle at center, rgba(51,0,102,.92), rgba(0,0,0,.97)); padding:20px 16px; z-index:20; overflow-y:auto; }
   #overlay.hidden { display:none; }
+
+  /* Modal flutuante (reset) — fora do flow do overlay */
+  #resetModal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.85); z-index:50; padding:20px; }
+  #resetModal.hidden { display:none; }
+  .resetModalBox { background:#1a1a2e; padding:24px 20px; border-radius:14px; max-width:300px; width:100%; border:1px solid rgba(255,255,255,.1); }
   .screen { width:100%; max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; }
   .screen.hidden { display:none; }
   .screen h1 { font-size:clamp(28px, 8vw, 44px); margin-bottom:4px; font-weight:900; background:linear-gradient(90deg,#ff00cc,#00f0ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:1px; line-height:1; }
@@ -99,19 +104,6 @@
     <button class="reset-btn" id="resetBtn">resetar estatísticas</button>
   </div>
 
-  <div id="resetModal" class="screen hidden" style="background:rgba(0,0,0,.85);z-index:30;">
-    <div style="background:#1a1a2e;padding:24px 20px;border-radius:14px;max-width:280px;width:85%;border:1px solid rgba(255,255,255,.1);">
-      <h2 style="font-size:18px;margin:0 0 10px 0;">Resetar estatísticas</h2>
-      <p style="font-size:13px;color:rgba(255,255,255,.7);margin:0 0 16px 0;">Digite a senha para apagar TODOS os recordes:</p>
-      <input id="resetPwd" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="width:100%;padding:12px;font-size:18px;background:#0a0a16;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;text-align:center;letter-spacing:8px;box-sizing:border-box;" />
-      <div id="resetMsg" style="font-size:12px;color:#ff6b6b;min-height:16px;margin:6px 0 0 0;text-align:center;"></div>
-      <div class="row" style="margin-top:14px;">
-        <button class="secondary" id="resetCancelBtn">CANCELAR</button>
-        <button id="resetConfirmBtn">CONFIRMAR</button>
-      </div>
-    </div>
-  </div>
-
   <div id="gameover" class="screen hidden">
     <h1 style="background:linear-gradient(90deg,#ff3355,#ff00cc);-webkit-background-clip:text;background-clip:text;">OPS!</h1>
     <p>Você chegou em <span id="goPct" style="color:#ffeb00;font-weight:900;">0</span>%</p>
@@ -129,6 +121,19 @@
     <div class="row">
       <button class="secondary" id="winBackBtn">MENU</button>
       <button class="primary" id="winNextBtn">PRÓXIMA</button>
+    </div>
+  </div>
+</div>
+
+<div id="resetModal" class="hidden">
+  <div class="resetModalBox">
+    <h2 style="font-size:18px;margin:0 0 10px 0;">Resetar estatísticas</h2>
+    <p style="font-size:13px;color:rgba(255,255,255,.7);margin:0 0 16px 0;">Digite a senha para apagar TODOS os recordes:</p>
+    <input id="resetPwd" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="width:100%;padding:12px;font-size:18px;background:#0a0a16;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;text-align:center;letter-spacing:8px;box-sizing:border-box;" />
+    <div id="resetMsg" style="font-size:12px;color:#ff6b6b;min-height:16px;margin:6px 0 0 0;text-align:center;"></div>
+    <div class="row" style="margin-top:14px;">
+      <button class="secondary" id="resetCancelBtn">CANCELAR</button>
+      <button id="resetConfirmBtn">CONFIRMAR</button>
     </div>
   </div>
 </div>
