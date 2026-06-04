@@ -27,14 +27,14 @@
   #levelTag { font-size:13px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(0,0,0,.4); border:1px solid rgba(255,255,255,.25); color:#fff; }
   #coinCounter { font-size:13px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(0,0,0,.4); color:#ffd700; pointer-events:none; }
 
-  #overlay { position:fixed; top:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(circle at center, rgba(51,0,102,.92), rgba(0,0,0,.97)); padding:20px 16px; z-index:20; overflow-y:auto; }
+  #overlay { position:fixed; top:0; bottom:0; display:flex; flex-direction:column; align-items:center; background:radial-gradient(circle at center, rgba(51,0,102,.92), rgba(0,0,0,.97)); padding:20px 16px; z-index:20; overflow-y:auto; }
   #overlay.hidden { display:none; }
 
   /* Modal flutuante (reset) — fora do flow do overlay */
   #resetModal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,.85); z-index:50; padding:20px; }
   #resetModal.hidden { display:none; }
   .resetModalBox { background:#1a1a2e; padding:24px 20px; border-radius:14px; max-width:300px; width:100%; border:1px solid rgba(255,255,255,.1); }
-  .screen { width:100%; max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; }
+  .screen { width:100%; max-width:480px; text-align:center; display:flex; flex-direction:column; align-items:center; margin:auto 0; }
   .screen.hidden { display:none; }
   .screen h1 { font-size:clamp(28px, 8vw, 44px); margin-bottom:4px; font-weight:900; background:linear-gradient(90deg,#ff00cc,#00f0ff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:1px; line-height:1; }
   .screen .subtitle { font-size:13px; opacity:.7; margin-bottom:14px; }
@@ -1192,13 +1192,13 @@
       accent1:'#ffffff', accent2:'#888888',
       speed:5.3, jumpForce:-15.5, gravity:0.85, length:30000,
       obs:[
-        // T1: warmup com lasers (0-3000)
+        // T1: warmup com lasers BAIXOS — pula pra passar (0-3000)
         spike(700),
-        laser(1100, 90, 0.4, 0, null),         // laser full-height, 40% ativo
+        laser(1100, 90, 0.4, 0, 80),         // baixo: player pula
         spike(1400),
-        laser(1800, 80, 0.35, 0, null),
+        laser(1800, 80, 0.35, 0, 80),
         spike(2100),
-        laser(2500, 70, 0.45, 0, null),
+        laser(2500, 70, 0.45, 0, 80),
         spike(2800),
 
         // T2: MINI-ORB introdução (3000-5500)
@@ -1209,16 +1209,16 @@
         miniOrb(4700, 60),
         spike(4900), spike(5100), spike(5300),
 
-        // T3: lasers denso (5500-8500)
+        // T3: lasers denso — alterna baixo/alto pra zigzag (5500-8500)
         spike(5700),
-        laser(6000, 60, 0.3, 0, null),
-        laser(6250, 80, 0.25, 0, null),    // period diferente pra não sincronizar
+        laser(6000, 60, 0.3, 0, 80),         // baixo: pular
+        laser(6250, 80, 0.25, 180, 160),     // alto: ficar no chão
         spike(6500),
-        laser(6800, 75, 0.3, 0, null),
+        laser(6800, 75, 0.3, 0, 80),         // baixo
         spike(7100),
-        laser(7400, 90, 0.35, 0, null),
+        laser(7400, 90, 0.35, 180, 160),     // alto
         spike(7700),
-        laser(8000, 85, 0.3, 0, null),
+        laser(8000, 85, 0.3, 0, 80),         // baixo
         spike(8300),
 
         // T4: jetpack com lasers (8500-11500)
@@ -1228,36 +1228,36 @@
         spike(9600), cspike(9800),
         laser(10100, 70, 0.35, 50, 200),       // laser mais alto
         spike(10400), cspike(10600),
-        laser(10900, 80, 0.3, 0, null),
+        laser(10900, 80, 0.3, 100, 160),       // laser meio (passa em cima OU baixo)
         spike(11200),
 
         // T5: WAVE + lasers (11500-14500)
         wave(11500, 3000),
         cspike(11900), spike(12200),
-        laser(12500, 100, 0.3, 0, null),
+        laser(12500, 100, 0.3, 100, 160),
         cspike(12800), spike(13100),
-        laser(13400, 80, 0.35, 0, null),
+        laser(13400, 80, 0.35, 100, 160),
         cspike(13700), spike(14000), cspike(14300),
 
         // T6: mov-plat + lasers (14500-17500)
         spike(14700),
         movPlat(14900, 120, 100, 80, 90),
-        laser(15200, 80, 0.3, 0, null),
+        laser(15200, 80, 0.3, 0, 80),
         movPlat(15500, 120, 180, 80, 90),
         spike(15900),
         movPlat(16100, 120, 100, 80, 90),
-        laser(16400, 70, 0.4, 0, null),
+        laser(16400, 70, 0.4, 0, 80),
         movPlat(16700, 120, 200, 80, 90),
         spike(17100),
 
         // T7: BALL + lasers (17500-20500)
         ballZone(17500, 3000),
         spike(17800), cspike(18000),
-        laser(18300, 90, 0.3, 0, null),
+        laser(18300, 90, 0.3, 100, 160),
         spike(18600), cspike(18800),
-        laser(19100, 80, 0.35, 0, null),
+        laser(19100, 80, 0.35, 100, 160),
         spike(19400), cspike(19600),
-        laser(19900, 90, 0.3, 0, null),
+        laser(19900, 90, 0.3, 100, 160),
         spike(20200),
 
         // T8: MINI denso + saws (20500-23000)
@@ -1279,9 +1279,9 @@
         // T10: WAVE final caos (25500-28500)
         wave(25500, 3000),
         cspike(25800), spike(26000), cspike(26200),
-        laser(26500, 80, 0.3, 0, null),
+        laser(26500, 80, 0.3, 100, 160),
         spike(26700), cspike(26900), spike(27100),
-        laser(27400, 70, 0.35, 0, null),
+        laser(27400, 70, 0.35, 100, 160),
         cspike(27600), spike(27800), cspike(28000), spike(28200),
 
         // T11: finale gflip + speed (28500-30000)
