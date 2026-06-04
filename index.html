@@ -22,6 +22,7 @@
   #progressWrap { flex:1; height:10px; background:rgba(255,255,255,.15); border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.25); }
   #progressFill { height:100%; width:0%; background:linear-gradient(90deg,#ffeb00,#ff00cc); border-radius:999px; transition:width .12s linear; box-shadow:0 0 12px rgba(255,235,0,.6); }
   #levelTag { font-size:13px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(0,0,0,.4); border:1px solid rgba(255,255,255,.25); color:#fff; }
+  #coinCounter { font-size:13px; font-weight:800; padding:5px 11px; border-radius:999px; background:rgba(0,0,0,.4); color:#ffd700; pointer-events:none; }
 
   #overlay { position:fixed; top:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(circle at center, rgba(51,0,102,.92), rgba(0,0,0,.97)); padding:20px 16px; z-index:20; overflow-y:auto; }
   #overlay.hidden { display:none; }
@@ -48,6 +49,9 @@
   .card[data-level="5"] .icon { background:linear-gradient(135deg,#fbbf24,#000); box-shadow:0 5px 18px rgba(251,191,36,.5); border:1px solid #fbbf24; }
   .card[data-level="6"] .icon { background:linear-gradient(135deg,#dc2626,#000); box-shadow:0 5px 18px rgba(220,38,38,.6); border:1px solid #dc2626; }
   .card[data-level="7"] .icon { background:linear-gradient(135deg,#ffd700,#ff00cc); box-shadow:0 5px 22px rgba(255,215,0,.7); border:1px solid #ffd700; }
+  .card[data-level="8"] .icon { background:linear-gradient(135deg,#a855f7,#06b6d4); box-shadow:0 5px 22px rgba(168,85,247,.7); border:1px solid #a855f7; }
+  .card[data-level="9"] .icon { background:linear-gradient(135deg,#dc2626,#000); box-shadow:0 5px 22px rgba(220,38,38,.7); border:1px solid #dc2626; }
+  .card[data-level="10"] .icon { background:linear-gradient(135deg,#000,#444); box-shadow:0 5px 22px rgba(255,255,255,.4); border:1px solid #888; }
   .card[data-level="0"] { border-color:rgba(125,211,252,.55); }
   .card[data-level="1"] { border-color:rgba(74,222,128,.5); }
   .card[data-level="2"] { border-color:rgba(251,146,60,.55); }
@@ -56,12 +60,17 @@
   .card[data-level="5"] { border-color:rgba(251,191,36,.7); }
   .card[data-level="6"] { border-color:rgba(220,38,38,.75); }
   .card[data-level="7"] { border-color:rgba(255,215,0,.8); }
+  .card[data-level="8"] { border-color:rgba(168,85,247,.8); }
+  .card[data-level="9"] { border-color:rgba(220,38,38,.8); }
+  .card[data-level="10"] { border-color:rgba(255,255,255,.5); }
   .card .meta { flex:1; min-width:0; }
   .card .title { font-size:17px; font-weight:800; }
   .card .stat { font-size:11px; margin-top:3px; font-weight:600; }
   .card .stat .done { color:#4ade80; }
   .card .stat .pct { color:#ffeb00; }
   .card .stat .empty { opacity:.45; }
+  .card .stat .coinStat { color:#ffd700; font-weight:700; }
+  #totalCoins { font-size:14px; color:#ffd700; background:rgba(0,0,0,.35); padding:6px 14px; border-radius:999px; margin-bottom:12px; border:1px solid rgba(255,215,0,.3); }
 
   .row { display:flex; gap:10px; width:100%; max-width:380px; margin-top:8px; }
   button.primary, button.secondary { flex:1; border:none; color:#fff; font-size:17px; font-weight:800; padding:15px 18px; border-radius:999px; cursor:pointer; letter-spacing:.5px; }
@@ -82,6 +91,7 @@
 <div id="hud">
   <button id="backBtn">✕</button>
   <div id="progressWrap"><div id="progressFill"></div></div>
+  <div id="coinCounter">⭐ 0/5</div>
   <div id="levelTag">—</div>
   <button id="muteBtn">🔊</button>
 </div>
@@ -90,6 +100,7 @@
   <div id="menu" class="screen">
     <h1>BEN &amp; LUCA DASH</h1>
     <div class="subtitle">Escolha uma fase</div>
+    <div id="totalCoins">⭐ 0/0 moedas</div>
     <div id="levelCards">
       <div class="card" data-level="0"><div class="icon">⭐</div><div class="meta"><div class="title">Muito Fácil</div><div class="stat" id="stat0"></div></div></div>
       <div class="card" data-level="1"><div class="icon">🌱</div><div class="meta"><div class="title">Fácil</div><div class="stat" id="stat1"></div></div></div>
@@ -99,6 +110,9 @@
       <div class="card" data-level="5"><div class="icon">💀</div><div class="meta"><div class="title">Maluco</div><div class="stat" id="stat5"></div></div></div>
       <div class="card" data-level="6"><div class="icon">👹</div><div class="meta"><div class="title">Insano</div><div class="stat" id="stat6"></div></div></div>
       <div class="card" data-level="7"><div class="icon">🌟</div><div class="meta"><div class="title">Lendário</div><div class="stat" id="stat7"></div></div></div>
+      <div class="card" data-level="8"><div class="icon">🌌</div><div class="meta"><div class="title">Cósmico</div><div class="stat" id="stat8"></div></div></div>
+      <div class="card" data-level="9"><div class="icon">💥</div><div class="meta"><div class="title">Apocalipse</div><div class="stat" id="stat9"></div></div></div>
+      <div class="card" data-level="10"><div class="icon">⚫</div><div class="meta"><div class="title">Vazio</div><div class="stat" id="stat10"></div></div></div>
     </div>
     <div class="hint"><b>Tocar</b> = pulo · <b>Segurar</b> = pula contínuo<br>No foguete 🚀: segurar = sobe · Raio 🌟 = cubo gigante</div>
     <button class="reset-btn" id="resetBtn">resetar estatísticas</button>
@@ -419,6 +433,53 @@
            {f:622,d:0.25},{f:494,d:0.25},{f:415,d:0.25},{f:330,d:0.25},
            {f:262,d:0.5},{f:0,d:0.5},
          ]},
+    // 8 — CÓSMICO: Liquid DnB 200 BPM, D minor, espacial
+    8: { bpm:200, vol:0.065,
+         drum: 'K-HKS-HKKKKHKSKH',  // DnB com fills
+         bass: [{f:73.42,d:0.5},{f:73.42,d:0.25},{f:110,d:0.25},{f:98,d:0.5},{f:87.31,d:0.5},
+                {f:73.42,d:0.5},{f:73.42,d:0.25},{f:87.31,d:0.25},{f:110,d:0.5},{f:98,d:0.5}],
+         melody:[
+           {f:294,d:0.5},{f:440,d:0.25},{f:587,d:0.25},
+           {f:494,d:0.5},{f:392,d:0.5},
+           {f:587,d:0.25},{f:698,d:0.25},{f:880,d:0.5},
+           {f:784,d:0.25},{f:587,d:0.25},{f:494,d:0.5},
+           {f:392,d:0.25},{f:440,d:0.25},{f:587,d:0.25},{f:740,d:0.25},
+           {f:880,d:0.5},{f:1175,d:0.25},{f:880,d:0.25},
+           {f:740,d:0.25},{f:587,d:0.25},{f:494,d:0.5},
+           {f:392,d:0.25},{f:294,d:0.25},{f:392,d:0.5},
+           {f:0,d:0.5},
+         ]},
+    // 9 — APOCALIPSE: Industrial dark 175 BPM, G minor sub-grave dissonante
+    9: { bpm:175, vol:0.07,
+         drum: 'KK-KSKKKK--KSKKK',  // pesado, com pausas dramáticas
+         bass: [{f:49,d:0.5},{f:49,d:0.25},{f:73.42,d:0.25},{f:65.41,d:0.5},{f:49,d:0.5},
+                {f:49,d:0.25},{f:58.27,d:0.25},{f:73.42,d:0.5},{f:65.41,d:0.5},{f:49,d:0.5}],
+         melody:[
+           {f:196,d:0.5},{f:233,d:0.5},
+           {f:294,d:0.25},{f:233,d:0.25},{f:196,d:0.5},
+           {f:175,d:0.5},{f:196,d:0.5},
+           {f:233,d:0.25},{f:294,d:0.25},{f:392,d:0.5},
+           {f:466,d:0.5},{f:392,d:0.5},
+           {f:294,d:0.25},{f:233,d:0.25},{f:196,d:0.5},
+           {f:147,d:0.5},{f:175,d:0.25},{f:196,d:0.25},{f:233,d:0.5},
+           {f:0,d:0.5},
+         ]},
+    // 10 — VAZIO: Glitch IDM 220 BPM, F1 sub-grave fragmentado
+    10:{ bpm:220, vol:0.065,
+         drum: 'K-KKS-HKK-KKSKKH',  // glitch rolls
+         bass: [{f:43.65,d:0.25},{f:43.65,d:0.25},{f:65.41,d:0.5},
+                {f:43.65,d:0.25},{f:0,d:0.25},{f:58.27,d:0.5},
+                {f:43.65,d:0.5},{f:65.41,d:0.25},{f:58.27,d:0.25},
+                {f:43.65,d:0.25},{f:0,d:0.25},{f:43.65,d:0.5}],
+         melody:[
+           {f:349,d:0.25},{f:0,d:0.25},{f:466,d:0.25},{f:0,d:0.25},
+           {f:622,d:0.5},{f:0,d:0.25},{f:466,d:0.25},
+           {f:349,d:0.25},{f:466,d:0.25},{f:622,d:0.25},{f:932,d:0.25},
+           {f:0,d:0.25},{f:622,d:0.25},{f:466,d:0.5},
+           {f:262,d:0.25},{f:349,d:0.25},{f:466,d:0.25},{f:622,d:0.25},
+           {f:932,d:0.25},{f:622,d:0.25},{f:466,d:0.25},{f:349,d:0.25},
+           {f:262,d:0.5},{f:0,d:0.5},
+         ]},
   };
   let musicToken = 0;
   function startMusic(idx) {
@@ -506,6 +567,13 @@
   function slowOrb(x, y=60)      { return { t:'slow', x, y }; }
   function gflip(x)              { return { t:'gflip', x }; }
   function growOrb(x, y=60)      { return { t:'grow', x, y }; }
+  function wave(x, len)          { return { t:'wave', x, end: x+len }; }
+  function speedPortal(x, mult)  { return { t:'speedp', x, mult }; }  // mult: 1.3 = boost, 0.75 = slow
+  function coin(x, y=80)         { return { t:'coin', x, y }; }       // y = altura h_ag do centro
+  function ballZone(x, len)      { return { t:'ballz', x, end: x+len }; }   // tap inverte gravidade (não pula livre)
+  function movPlat(x, w, y, amp=80, period=120) { return { t:'movplat', x, w, y, amp, period }; }  // y oscila ±amp em period frames
+  function miniOrb(x, y=60)      { return { t:'mini', x, y }; }       // encolhe cubo (scale 0.5) por 300 frames
+  function laser(x, period=90, duty=0.5, y=0, h=null) { return { t:'laser', x, period, duty, y, h }; }  // feixe horizontal piscante. h=null = full height
 
   // =========== LEVELS ===========
   const LEVELS = [
@@ -517,6 +585,7 @@
       accent1:'#fbbf24', accent2:'#7dd3fc',
       speed:3.5, jumpForce:-16, gravity:0.78, length:3400,
       obs:[
+        coin(450, 80), coin(1050, 100), coin(1650, 80), coin(2150, 60), coin(2680, 90),
         spike(700), spike(1300), spike(1900),
         block(2400, 1),
         spike(2900),
@@ -541,6 +610,7 @@
         ...spikedBlock(4400),
         spike(4900),
         spikes(5300, 2),
+        coin(750, 90), coin(1750, 100), coin(2700, 120), coin(3700, 90), coin(4650, 90),
         finish(5600)
       ].flat()
     },
@@ -574,6 +644,7 @@
         block(8050, 4),
         spike(8350),
         spikes(8450, 2),
+        coin(900, 90), coin(3200, 120), coin(5300, 170), coin(7000, 100), coin(8400, 80),
         finish(8700)
       ].flat()
     },
@@ -624,6 +695,7 @@
         ...spikedBlock(12300),
         spike(12650),
         spike(12900),
+        coin(1200, 90), coin(4500, 120), coin(7800, 100), coin(10500, 110), coin(12800, 90),
         finish(13300)
       ].flat()
     },
@@ -670,6 +742,7 @@
         block(10950, 4),
         spikes(11250, 2),
         spike(11600),
+        coin(1500, 90), coin(3800, 100), coin(6000, 180), coin(8800, 90), coin(11200, 110),
         finish(12000)
       ].flat()
     },
@@ -736,6 +809,7 @@
         ...spikedBlock(17050),
         spike(17400),
         saw(17700, 22),
+        coin(1500, 90), coin(4500, 100), coin(6800, 170), coin(11000, 120), coin(15500, 170),
         finish(18200)
       ].flat()
     },
@@ -826,6 +900,7 @@
         saw(18800, 22),
         spikes(19100, 2),
         spike(19450),
+        coin(1800, 100), coin(5500, 120), coin(9500, 90), coin(12800, 180), coin(17500, 100),
         finish(20000)
       ].flat()
     },
@@ -921,7 +996,305 @@
         spike(24250),            // coberto pelo pulo 24108
         saw(24550, 22),
         spike(24750),            // coberto pelo pulo 24687
+        coin(2200, 100), coin(7500, 120), coin(12500, 180), coin(18000, 100), coin(23000, 110),
         finish(25000)
+      ].flat()
+    },
+    // 8 — CÓSMICO 🌌 (novos: WAVE + SPEED PORTALS)
+    {
+      name:'Cósmico',
+      tagColor:'linear-gradient(90deg,#a855f7,#06b6d4)',
+      bg:['#1a0033','#3a0d6e','#0a0014'],
+      accent1:'#a855f7', accent2:'#06b6d4',
+      speed:5.3, jumpForce:-15.5, gravity:0.85, length:26000,
+      obs:[
+        // T1: warmup cubo com speed portals (0-4500)
+        spike(800), spike(1500),
+        speedPortal(2200, 1.3),     // boost laranja
+        spike(2700), spike(2950), spike(3200), spike(3450), spike(3700),  // cycle acelerado
+        speedPortal(3950, 0.75),    // freia azul
+        spike(4300),
+
+        // T2: primeira WAVE — corredor diagonal (4500-7500)
+        wave(4500, 3000),
+        cspike(5000), spike(5300), cspike(5600),
+        spike(5900), cspike(6200), spike(6500),
+        cspike(6800), spike(7100), cspike(7400),
+
+        // T3: jetpack com saws zigzag (7500-10000)
+        jetpack(7500, 2500),
+        spike(7800), cspike(8050), saw(8300, 22), saw(8550, 250),
+        cspike(8800), spike(9050), saw(9300, 22),
+        cspike(9550), spike(9800),
+
+        // T4: gravity flip + cspikes (10000-12500)
+        gflip(10000),
+        cspike(10430), cspike(10630), cspike(10820),  // cycle pós-gflip aterriz teto ~10145, pulos 10338/10531/10724
+        spike(10900),  // chão (= teto invertido)
+        cspike(11200), cspike(11400),
+        gflip(11700),
+        spike(12000), spike(12200), spike(12400),
+
+        // T5: WAVE 2 — denso (12500-15500)
+        wave(12500, 3000),
+        cspike(12900), spike(13200), cspike(13500),
+        saw(13800, 100),  // saw mid-air
+        cspike(14100), spike(14400),
+        saw(14700, 200),
+        cspike(15000), spike(15300),
+
+        // T6: slow + denso ground (15500-18500)
+        spike(15700), slowOrb(16000, 60),
+        spikes(16300, 2), spike(16700),
+        saw(17000, 22), spikes(17300, 2),
+        block(17700, 1), spike(18000), spikes(18300, 2),
+
+        // T7: grow orb + spikes alinhados (18500-21000)
+        growOrb(18500, 60),
+        spike(18600), spike(18800), spike(19000), spike(19200), spike(19400),
+        spike(19600), spike(19800), spike(20000), saw(20200, 22),
+        spike(20500), spike(20700),
+
+        // T8: WAVE 3 final — speed UP no meio (21000-24000)
+        wave(21000, 3000),
+        cspike(21400), spike(21700),
+        speedPortal(22000, 1.3),  // dentro da wave! reta rápida
+        cspike(22200), spike(22500), cspike(22800),
+        speedPortal(23100, 0.75),
+        spike(23400), cspike(23700),
+
+        // T9: finale (24000-26000)
+        speedPortal(24100, 1.3),
+        spike(24400), spike(24600), spike(24900),  // cycle pós-portal 251: 24301/24552/24803
+        spring(25200), spike(25400),
+        speedPortal(25500, 0.75),
+        spike(25700),
+
+        // 5 moedas (rotas diversas: 1 fácil no início, 2 médias em wave/jetpack, 1 alta em gflip, 1 final)
+        coin(1100, 100),                    // 1: warmup
+        coin(6000, 180),                    // 2: meio da wave 1 (precisa estar a meia altura)
+        coin(9000, 260),                    // 3: alto no jetpack
+        coin(11000, 280),                   // 4: alto na gflip (= baixo invertido)
+        coin(22500, 200),                   // 5: meio da wave 3 final
+
+        finish(26000)
+      ].flat()
+    },
+    // 9 — APOCALIPSE 💥 (novos: BALL + MOV-PLAT)
+    {
+      name:'Apocalipse',
+      tagColor:'linear-gradient(90deg,#dc2626,#000)',
+      bg:['#2a0808','#5a1010','#1a0404'],
+      accent1:'#dc2626', accent2:'#fb923c',
+      speed:5.3, jumpForce:-15.5, gravity:0.85, length:28000,
+      obs:[
+        // T1: warmup denso (0-3000)
+        spike(700), spike(1000), spike(1300),
+        speedPortal(1600, 1.3),
+        spike(1980), spike(2200), spike(2450), spike(2700),  // cycle pós-portal 251: 1883/2134/2385/2636
+        speedPortal(2900, 0.75),
+
+        // T2: BALL mode introdução (3000-5500)
+        ballZone(3000, 2500),
+        // ball: rola no chão/teto, tap inverte gravidade. Spikes ambos lados forçam timing
+        spike(3300),
+        cspike(3700),
+        spike(4100),
+        cspike(4500),
+        spike(4900),
+        cspike(5300),
+
+        // T3: MOV-PLAT introdução (5500-8000)
+        spike(5700),
+        movPlat(5900, 100, 100, 60, 100),    // oscila 40-160, period 100 frames
+        spike(6400),
+        movPlat(6600, 100, 150, 80, 90),
+        spike(7100),
+        movPlat(7300, 100, 100, 70, 110),
+        spike(7800),
+
+        // T4: jetpack rápido (8000-10500)
+        jetpack(8000, 2500),
+        spike(8300), cspike(8500), spike(8700), cspike(8900),
+        saw(9100, 22), saw(9300, 250),
+        spike(9500), cspike(9700), spike(9900),
+        saw(10100, 22), saw(10300, 250),
+
+        // T5: BALL 2 com gflip dentro (10500-13500)
+        ballZone(10500, 3000),
+        spike(10800), cspike(11000), spike(11200),
+        cspike(11500), spike(11700), cspike(11900),
+        spike(12200), cspike(12400), spike(12600),
+        cspike(12900), spike(13100), cspike(13300),
+
+        // T6: wave + speed portals (13500-16500)
+        wave(13500, 3000),
+        cspike(13900), spike(14200),
+        speedPortal(14500, 1.3),
+        cspike(14700), spike(15000), cspike(15300),
+        speedPortal(15600, 0.75),
+        spike(15900), cspike(16200),
+
+        // T7: mov-plat denso (16500-19500)
+        spike(16700),
+        movPlat(16900, 120, 100, 80, 80),    // mais rápido
+        movPlat(17200, 120, 200, 80, 80),
+        spike(17600),
+        movPlat(17800, 120, 100, 100, 70),   // amplitude maior
+        movPlat(18100, 120, 220, 90, 70),
+        spike(18500),
+        movPlat(18700, 120, 150, 100, 60),   // muito rápido
+        spike(19100),
+
+        // T8: slow + cubo gigante (19500-22500)
+        slowOrb(19700, 60),
+        spikes(20000, 3), spike(20500),
+        saw(20800, 22), spikes(21100, 2),
+        growOrb(21400, 60),
+        spike(21500), spike(21700), spike(21900),
+        spike(22100), spike(22300),
+
+        // T9: WAVE final denso (22500-25500)
+        wave(22500, 3000),
+        cspike(22900), spike(23100), cspike(23300),
+        spike(23500), cspike(23700), spike(23900),
+        cspike(24100), spike(24300), cspike(24500),
+        spike(24700), cspike(24900), spike(25100),
+        cspike(25300),
+
+        // T10: finale invertido (25500-28000)
+        gflip(25500),
+        cspike(25900), cspike(26100), cspike(26300),  // cycle pós-gflip aterriz teto ~25645, pulos 25838/26031/26224
+        cspikes(26500, 3),
+        spring(27000),
+        cspike(27200), cspike(27400),
+        gflip(27600),
+        spike(27800),
+
+        // 5 moedas
+        coin(2400, 100),              // 1: warmup acelerado
+        coin(4500, 200),              // 2: meio ball zone 1 (precisa flip preciso)
+        coin(6700, 270),              // 3: alto na mov-plat
+        coin(14700, 200),             // 4: wave + speed boost
+        coin(26500, 300),             // 5: finale invertido (alto = perto do chão invertido)
+
+        finish(28000)
+      ].flat()
+    },
+    // 10 — VAZIO ⚫ (novos: MINI-CUBE + LASER)
+    {
+      name:'Vazio',
+      tagColor:'linear-gradient(90deg,#000,#888)',
+      bg:['#080808','#1a1a1a','#000'],
+      accent1:'#ffffff', accent2:'#888888',
+      speed:5.3, jumpForce:-15.5, gravity:0.85, length:30000,
+      obs:[
+        // T1: warmup com lasers (0-3000)
+        spike(700),
+        laser(1100, 90, 0.4, 0, null),         // laser full-height, 40% ativo
+        spike(1400),
+        laser(1800, 80, 0.35, 0, null),
+        spike(2100),
+        laser(2500, 70, 0.45, 0, null),
+        spike(2800),
+
+        // T2: MINI-ORB introdução (3000-5500)
+        miniOrb(3000, 60),
+        spike(3200), spike(3400), spike(3600),  // cubo pequeno passa entre eles mais facilmente
+        block(3900, 1),  // bloco mais alto pra mini cubo
+        spike(4200), spike(4400),
+        miniOrb(4700, 60),
+        spike(4900), spike(5100), spike(5300),
+
+        // T3: lasers denso (5500-8500)
+        spike(5700),
+        laser(6000, 60, 0.3, 0, null),
+        laser(6250, 80, 0.25, 0, null),    // period diferente pra não sincronizar
+        spike(6500),
+        laser(6800, 75, 0.3, 0, null),
+        spike(7100),
+        laser(7400, 90, 0.35, 0, null),
+        spike(7700),
+        laser(8000, 85, 0.3, 0, null),
+        spike(8300),
+
+        // T4: jetpack com lasers (8500-11500)
+        jetpack(8500, 3000),
+        spike(8800), cspike(9000),
+        laser(9300, 80, 0.3, 100, 150),        // laser parcial mid-air
+        spike(9600), cspike(9800),
+        laser(10100, 70, 0.35, 50, 200),       // laser mais alto
+        spike(10400), cspike(10600),
+        laser(10900, 80, 0.3, 0, null),
+        spike(11200),
+
+        // T5: WAVE + lasers (11500-14500)
+        wave(11500, 3000),
+        cspike(11900), spike(12200),
+        laser(12500, 100, 0.3, 0, null),
+        cspike(12800), spike(13100),
+        laser(13400, 80, 0.35, 0, null),
+        cspike(13700), spike(14000), cspike(14300),
+
+        // T6: mov-plat + lasers (14500-17500)
+        spike(14700),
+        movPlat(14900, 120, 100, 80, 90),
+        laser(15200, 80, 0.3, 0, null),
+        movPlat(15500, 120, 180, 80, 90),
+        spike(15900),
+        movPlat(16100, 120, 100, 80, 90),
+        laser(16400, 70, 0.4, 0, null),
+        movPlat(16700, 120, 200, 80, 90),
+        spike(17100),
+
+        // T7: BALL + lasers (17500-20500)
+        ballZone(17500, 3000),
+        spike(17800), cspike(18000),
+        laser(18300, 90, 0.3, 0, null),
+        spike(18600), cspike(18800),
+        laser(19100, 80, 0.35, 0, null),
+        spike(19400), cspike(19600),
+        laser(19900, 90, 0.3, 0, null),
+        spike(20200),
+
+        // T8: MINI denso + saws (20500-23000)
+        miniOrb(20500, 60),
+        spike(20700), saw(20900, 22),
+        spike(21100), saw(21300, 22),
+        miniOrb(21500, 60),
+        spike(21700), saw(21900, 22), spike(22100),
+        saw(22300, 22), spike(22500),
+        saw(22700, 22), spike(22900),
+
+        // T9: GROW + spikes alinhados (23000-25500)
+        growOrb(23000, 60),
+        spike(23100), spike(23300), spike(23500), spike(23700), spike(23900),
+        spike(24100), spike(24300), spike(24500),
+        saw(24700, 22),
+        spike(25000), spike(25200), spike(25400),
+
+        // T10: WAVE final caos (25500-28500)
+        wave(25500, 3000),
+        cspike(25800), spike(26000), cspike(26200),
+        laser(26500, 80, 0.3, 0, null),
+        spike(26700), cspike(26900), spike(27100),
+        laser(27400, 70, 0.35, 0, null),
+        cspike(27600), spike(27800), cspike(28000), spike(28200),
+
+        // T11: finale gflip + speed (28500-30000)
+        gflip(28500),
+        speedPortal(28700, 1.3),
+        cspike(29000), cspike(29200), cspike(29400),
+        cspikes(29600, 3),
+
+        // 5 moedas
+        coin(1600, 100),              // 1: warmup
+        coin(4300, 110),              // 2: dentro mini-orb zone
+        coin(10000, 280),             // 3: alto jetpack entre lasers
+        coin(16400, 200),             // 4: meio mov-plat com laser
+        coin(28900, 300),             // 5: finale invertido
+
+        finish(30000)
       ].flat()
     }
   ];
@@ -954,6 +1327,16 @@
   let growFrames = 0;
   const GROW_DURATION = 300;
 
+  // Mini (encolhe cubo 0.5x por 5s)
+  let miniFrames = 0;
+  const MINI_DURATION = 300;
+
+  // Speed portal (cumulative)
+  let speedMult = 1.0;
+
+  // Coins
+  let coinsCollected = 0;          // moedas coletadas nesta partida
+
   // Death animation
   let deathFlash = 0;        // frames de flash branco (0-12)
   let deathShake = 0;        // intensidade do shake (frames)
@@ -982,6 +1365,9 @@
     inputHeld = false;
     timeMult = 1.0; slowFrames = 0;
     growFrames = 0;
+    miniFrames = 0;
+    speedMult = 1.0;
+    coinsCollected = 0;
     deathFlash = 0; deathShake = 0;
     shockwaves = []; shards = [];
     prevWx = 0;
@@ -1013,30 +1399,55 @@
   function getStat(i) {
     return {
       bestPct: +(localStorage.getItem(`cubo-dash-best-${i}`) || 0),
-      complete: localStorage.getItem(`cubo-dash-done-${i}`) === '1'
+      complete: localStorage.getItem(`cubo-dash-done-${i}`) === '1',
+      coins:   +(localStorage.getItem(`cubo-dash-coins-${i}`) || 0)
     };
   }
-  function saveStat(i, pct, completed) {
+  function saveStat(i, pct, completed, coins) {
     const cur = getStat(i);
     const newPct = Math.max(cur.bestPct, Math.floor(pct));
+    const newCoins = Math.max(cur.coins, coins || 0);
     localStorage.setItem(`cubo-dash-best-${i}`, newPct);
+    localStorage.setItem(`cubo-dash-coins-${i}`, newCoins);
     if (completed) localStorage.setItem(`cubo-dash-done-${i}`, '1');
-    return { bestPct:newPct, complete: cur.complete || completed };
+    return { bestPct:newPct, complete: cur.complete || completed, coins:newCoins };
   }
   function refreshStats() {
+    let totalCoins = 0, maxCoins = 0;
     for (let i=0; i<LEVELS.length; i++) {
       const s = getStat(i);
+      totalCoins += s.coins;
+      maxCoins += 5;
       const el = document.getElementById('stat'+i);
       if (!el) continue;
-      if (s.complete) el.innerHTML = '<span class="done">✓ Completou</span>';
-      else if (s.bestPct > 0) el.innerHTML = `<span class="pct">Recorde: ${s.bestPct}%</span>`;
-      else el.innerHTML = '<span class="empty">— ainda não tentou —</span>';
+      const coinStr = `<span class="coinStat">⭐ ${s.coins}/5</span>`;
+      if (s.complete) el.innerHTML = `<span class="done">✓ Completou</span> · ${coinStr}`;
+      else if (s.bestPct > 0) el.innerHTML = `<span class="pct">Recorde: ${s.bestPct}%</span> · ${coinStr}`;
+      else el.innerHTML = `<span class="empty">— ainda não tentou —</span> · ${coinStr}`;
     }
+    const totEl = document.getElementById('totalCoins');
+    if (totEl) totEl.textContent = `⭐ ${totalCoins}/${maxCoins} moedas`;
   }
 
   // =========== INPUT ===========
   function jump() {
     if (!running || player.dead) return;
+    if (player.mode === 'ball' && player.onGround) {
+      // Ball: tap inverte gravidade (não pula livre)
+      player.gravityDir *= -1;
+      player.onGround = false;
+      sndFlip();
+      for (let i=0; i<12; i++) {
+        const a = Math.random()*Math.PI*2;
+        particles.push({
+          x: PLAYER_X() + PLAYER_SIZE*player.scale/2,
+          y: player.y + PLAYER_SIZE*player.scale/2,
+          vx: Math.cos(a)*3, vy: Math.sin(a)*3,
+          life: 30, max:30, col: '#ff8800'
+        });
+      }
+      return;
+    }
     if (player.mode === 'cubo' && player.onGround) {
       player.vy = level.jumpForce * player.gravityDir;
       player.onGround = false;
@@ -1105,8 +1516,16 @@
         }
       }
       player.scale = 2;
+    } else if (miniFrames > 0) {
+      miniFrames--;
+      if (player.scale !== 0.5) {
+        if (player.onGround && player.gravityDir === 1) {
+          player.y = GROUND_Y() - PLAYER_SIZE * 0.5;
+        }
+      }
+      player.scale = 0.5;
     } else {
-      if (player.scale > 1) {
+      if (player.scale !== 1) {
         if (player.onGround && player.gravityDir === 1) {
           player.y = GROUND_Y() - PLAYER_SIZE;
         }
@@ -1123,21 +1542,40 @@
       timeMult = 1.0;
     }
 
-    scroll += level.speed * timeMult;
+    scroll += level.speed * timeMult * speedMult;
     const wx = worldPlayerX();
 
-    // ---- DETECTAR JETPACK ZONE ----
-    let inJetpack = false;
+    // ---- DETECTAR JETPACK / WAVE / BALL ZONE ----
+    let inJetpack = false, inWave = false, inBall = false;
     for (const o of level.obs) {
       if (o.t === 'jetpack' && wx >= o.x && wx <= o.end) { inJetpack = true; break; }
     }
+    if (!inJetpack) {
+      for (const o of level.obs) {
+        if (o.t === 'wave' && wx >= o.x && wx <= o.end) { inWave = true; break; }
+      }
+    }
+    if (!inJetpack && !inWave) {
+      for (const o of level.obs) {
+        if (o.t === 'ballz' && wx >= o.x && wx <= o.end) { inBall = true; break; }
+      }
+    }
     const prevMode = player.mode;
-    player.mode = inJetpack ? 'jetpack' : 'cubo';
+    player.mode = inJetpack ? 'jetpack' : (inWave ? 'wave' : (inBall ? 'ball' : 'cubo'));
     if (prevMode !== player.mode) {
       player.vy = 0;
-      if (player.mode === 'jetpack') {
+      if (player.mode === 'jetpack' || player.mode === 'wave') {
         player.onGround = false;
-        player.gravityDir = 1; // jetpack sempre gravidade normal
+        player.gravityDir = 1;
+      }
+      // ball mantém gravityDir atual
+    }
+
+    // ---- DETECTAR SPEED PORTAL CROSSING ----
+    for (const o of level.obs) {
+      if (o.t === 'speedp' && prevWx < o.x && wx >= o.x) {
+        speedMult *= o.mult;
+        sndSlow();  // reaproveita som existente
       }
     }
 
@@ -1164,7 +1602,25 @@
 
     // ---- FÍSICA ----
     const ps = player.scale;
-    if (player.mode === 'jetpack') {
+    if (player.mode === 'wave') {
+      // Wave: diagonal constante. Segura = sobe (vy negativo), solta = desce (vy positivo)
+      // sem gravidade — vy é diretamente controlada pelo input. Speed vertical = level.speed pra 45°
+      const waveSpeed = level.speed * 0.85;
+      player.vy = inputHeld ? -waveSpeed : waveSpeed;
+      player.y += player.vy * timeMult;
+      player.rot = inputHeld ? -Math.PI/4 : Math.PI/4;
+
+      // Rastro
+      if (frame % 2 === 0) {
+        trailPts.push({ x: PLAYER_X() + PLAYER_SIZE/2, y: player.y + PLAYER_SIZE/2, life: 22, max: 22 });
+      }
+
+      const ceil_y = CEILING_Y();
+      const ground_y = GROUND_Y();
+      if (player.y < ceil_y) { die(); return; }                          // bate teto = mata
+      if (player.y + PLAYER_SIZE*ps > ground_y) { die(); return; }       // bate chão = mata
+      player.onGround = false;
+    } else if (player.mode === 'jetpack') {
       const grav = level.gravity * 0.55;
       const thrust = 0.95;
       if (inputHeld) {
@@ -1183,12 +1639,13 @@
       if (player.y + PLAYER_SIZE*ps > ground_y) { player.y = ground_y - PLAYER_SIZE*ps; if (player.vy > 0) player.vy = 0; }
       player.onGround = false;
     } else {
-      // Modo cubo (com gravityDir = +1 ou -1)
+      // Modo cubo / ball (com gravityDir = +1 ou -1)
       const gd = player.gravityDir;
-      if (inputHeld && player.onGround) jump();
+      if (player.mode === 'cubo' && inputHeld && player.onGround) jump();
+      // ball mode: tap inverte gravidade (não auto-flip, só pointerdown)
       player.vy += level.gravity * timeMult * gd;
       player.y += player.vy * timeMult;
-      if (!player.onGround) player.rot += 0.16 * timeMult * gd;
+      if (!player.onGround) player.rot += (player.mode === 'ball' ? 0.22 : 0.16) * timeMult * gd;
 
       if (gd === 1) {
         // Gravity normal: detecta chão
@@ -1325,6 +1782,74 @@
           }
         }
       }
+      else if (o.t === 'mini' && !o.consumed) {
+        const cx = sx;
+        const cy = GROUND_Y() - o.y;
+        const bbox = { x: cx - 24, y: cy - 80, w: 48, h: 160 };
+        if (rectOverlap(ph, bbox)) {
+          o.consumed = true;
+          miniFrames = MINI_DURATION;
+          sndSlow();
+          for (let i=0; i<20; i++) {
+            const a = Math.random()*Math.PI*2;
+            particles.push({
+              x: cx, y: cy,
+              vx: Math.cos(a)*5, vy: Math.sin(a)*5,
+              life: 45, max:45, col: i%2 ? '#06b6d4' : '#fff'
+            });
+          }
+        }
+      }
+      else if (o.t === 'coin' && !o.consumed) {
+        const cx = sx;
+        const cy = GROUND_Y() - o.y;
+        const r = 18;
+        const bbox = { x: cx - r, y: cy - r, w: r*2, h: r*2 };
+        if (rectOverlap(ph, bbox)) {
+          o.consumed = true;
+          coinsCollected++;
+          beep(880, 0.08, 'triangle', 0.10);
+          setTimeout(() => beep(1320, 0.10, 'triangle', 0.08), 50);
+          for (let i=0; i<18; i++) {
+            const a = Math.random()*Math.PI*2;
+            particles.push({
+              x: cx, y: cy,
+              vx: Math.cos(a)*4, vy: Math.sin(a)*4,
+              life: 36, max:36, col: i%2 ? '#ffd700' : '#fff7b3'
+            });
+          }
+        }
+      }
+      else if (o.t === 'movplat') {
+        // y oscila ±amp em period frames
+        const phase = (frame / o.period) * Math.PI * 2;
+        const curY = o.y + Math.sin(phase) * o.amp;
+        const top = GROUND_Y() - curY;
+        const thickness = 14;
+        const bbox = { x: sx, y: top, w: o.w, h: thickness };
+        if (player.mode === 'cubo' && player.gravityDir === 1 && rectOverlap(ph, bbox)) {
+          if (player.vy >= 0 && player.y + PLAYER_SIZE*ps - player.vy * timeMult <= top + 6) {
+            player.y = top - PLAYER_SIZE*ps;
+            player.vy = 0;
+            if (!player.onGround) player.rot = Math.round(player.rot / (Math.PI/2)) * (Math.PI/2);
+            player.onGround = true;
+            landedOnBlock = true;
+          }
+        }
+      }
+      else if (o.t === 'laser') {
+        // piscante: ativo durante "duty" do period
+        const t = (frame % o.period) / o.period;
+        const active = t < o.duty;
+        if (active) {
+          const ceilY = CEILING_Y();
+          const groundY = GROUND_Y();
+          const top = o.h === null ? ceilY : (groundY - o.y - o.h);
+          const h = o.h === null ? (groundY - ceilY) : o.h;
+          const bbox = { x: sx - 8, y: top, w: 16, h: h };
+          if (rectOverlap(ph, bbox)) { die(); return; }
+        }
+      }
     }
 
     // FINISH
@@ -1378,6 +1903,7 @@
 
     const progress = Math.min(100, wx / level.length * 100);
     progressFill.style.width = progress + '%';
+    document.getElementById('coinCounter').textContent = `⭐ ${coinsCollected}/5`;
   }
 
   function explode() {
@@ -1429,14 +1955,14 @@
     player.dead = true; inputHeld = false; stopMusic();
     explode();
     const pct = Math.min(100, worldPlayerX() / level.length * 100);
-    const s = saveStat(levelIdx, pct, false);
+    const s = saveStat(levelIdx, pct, false, coinsCollected);
     setTimeout(() => showGameOver(pct, s.bestPct), 1400);
   }
   function win() {
     if (player.dead) return;
     player.dead = true; inputHeld = false; stopMusic();
     sndWin();
-    saveStat(levelIdx, 100, true);
+    saveStat(levelIdx, 100, true, coinsCollected);
     const ps = player.scale;
     for (let i=0; i<80; i++) {
       particles.push({
@@ -1587,15 +2113,27 @@
 
     for (const o of level.obs) {
       const sx = pxOnScreen(o.x);
+      if (o.t === 'wave' || o.t === 'jetpack' || o.t === 'ballz') {
+        const sxEnd = pxOnScreen(o.end);
+        if (sxEnd < -10 || sx > W + 10) continue;
+        if (o.t === 'wave') drawWaveZone(Math.max(-50, sx), Math.min(W+50, sxEnd));
+        else if (o.t === 'ballz') drawBallZone(Math.max(-50, sx), Math.min(W+50, sxEnd));
+        continue;
+      }
       if (sx < -260 || sx > W + 300) continue;
       if (o.t === 'spike')        drawSpike(sx, gy, o.h || 0);
       else if (o.t === 'cspike')   drawCSpike(sx);
       else if (o.t === 'block')    drawBlock(sx, gy - o.h, o.w, o.h);
       else if (o.t === 'platform') drawPlatform(sx, gy - o.y, o.w);
+      else if (o.t === 'movplat')  drawMovPlat(sx, gy, o);
+      else if (o.t === 'laser')    drawLaser(sx, gy, o);
       else if (o.t === 'spring')   drawSpring(sx, gy);
       else if (o.t === 'saw')      drawSaw(sx, gy - o.y);
       else if (o.t === 'slow' && !o.consumed) drawSlowOrb(sx, gy - o.y);
       else if (o.t === 'grow' && !o.consumed) drawGrowOrb(sx, gy - o.y);
+      else if (o.t === 'mini' && !o.consumed) drawMiniOrb(sx, gy - o.y);
+      else if (o.t === 'coin' && !o.consumed) drawCoin(sx, gy - o.y);
+      else if (o.t === 'speedp')   drawSpeedPortal(sx, gy, o.mult);
       else if (o.t === 'gflip')    drawGFlip(sx, gy);
       else if (o.t === 'finish')   drawFinish(sx, gy);
     }
@@ -1617,6 +2155,50 @@
       const sz = PLAYER_SIZE * player.scale;
       ctx.save();
       ctx.translate(PLAYER_X() + sz/2, player.y + sz/2);
+      if (player.mode === 'wave') {
+        // chevron diagonal — triângulo apontando na direção do movimento
+        ctx.rotate(player.rot);
+        ctx.fillStyle = '#a855f7';
+        ctx.shadowColor = '#a855f7';
+        ctx.shadowBlur = 25;
+        ctx.beginPath();
+        ctx.moveTo(sz/2, 0);
+        ctx.lineTo(-sz/2, -sz/2);
+        ctx.lineTo(-sz/4, 0);
+        ctx.lineTo(-sz/2, sz/2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.restore();
+      } else if (player.mode === 'ball') {
+        // bola laranja com indicador de gravidade
+        ctx.rotate(player.rot);
+        const r = sz/2;
+        const grad = ctx.createRadialGradient(-r*0.3, -r*0.3*player.gravityDir, r*0.1, 0, 0, r);
+        grad.addColorStop(0, '#fff');
+        grad.addColorStop(0.4, '#fb923c');
+        grad.addColorStop(1, '#9a3412');
+        ctx.fillStyle = grad;
+        ctx.shadowColor = '#fb923c';
+        ctx.shadowBlur = 18;
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI*2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        // linha central indicando rotação
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-r*0.6, 0); ctx.lineTo(r*0.6, 0);
+        ctx.stroke();
+        ctx.restore();
+      } else {
       // aura dourada se gigante
       if (player.scale > 1) {
         const auraR = sz/2 + 10 + Math.sin(frame * 0.2) * 5;
@@ -1650,6 +2232,7 @@
       ctx.fillRect(-eo, ey, es, eh);
       ctx.fillRect(eo - es, ey, es, eh);
       ctx.restore();
+      }
     }
 
     for (const p of particles) {
@@ -1915,6 +2498,222 @@
       ctx.restore();
     }
     ctx.restore();
+  }
+  function drawCoin(cx, cy) {
+    const pulse = Math.sin(frame * 0.22) * 0.15 + 1;
+    const r = 14 * pulse;
+    const skew = Math.sin(frame * 0.18) * 0.7 + 1; // gira em torno do eixo vertical
+    // halo
+    ctx.fillStyle = 'rgba(255,215,0,0.35)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r + 8, 0, Math.PI*2);
+    ctx.fill();
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(Math.max(0.15, skew), 1);
+    const grad = ctx.createRadialGradient(0,0,0, 0,0,r);
+    grad.addColorStop(0, '#fff7b3');
+    grad.addColorStop(0.6, '#ffd700');
+    grad.addColorStop(1, '#b8860b');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff7b3';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    // estrela central
+    if (skew > 0.5) {
+      ctx.fillStyle = '#b8860b';
+      ctx.font = `bold ${Math.round(r*1.1)}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('★', 0, 1);
+    }
+    ctx.restore();
+  }
+  function drawSpeedPortal(sx, gy, mult) {
+    const ceilY = CEILING_Y();
+    const portalH = gy - ceilY;
+    const wid = 18;
+    const fast = mult > 1;
+    const c1 = fast ? '#fb923c' : '#38bdf8';
+    const c2 = fast ? '#fff' : '#0c4a6e';
+    ctx.fillStyle = fast ? 'rgba(251,146,60,0.18)' : 'rgba(56,189,248,0.18)';
+    ctx.fillRect(sx - wid - 10, ceilY - 10, (wid + 10)*2, portalH + 20);
+    const grad = ctx.createLinearGradient(sx, ceilY, sx, gy);
+    grad.addColorStop(0, c1);
+    grad.addColorStop(0.5, c2);
+    grad.addColorStop(1, c1);
+    ctx.fillStyle = grad;
+    ctx.fillRect(sx - wid, ceilY, wid*2, portalH);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.shadowColor = c1; ctx.shadowBlur = 12;
+    ctx.strokeRect(sx - wid, ceilY, wid*2, portalH);
+    ctx.shadowBlur = 0;
+    // setas indicando direção
+    ctx.fillStyle = '#fff';
+    const arrowY = ceilY + portalH/2;
+    const dir = fast ? 1 : -1;
+    for (let i = -1; i <= 1; i++) {
+      const ay = arrowY + i * 22;
+      ctx.beginPath();
+      ctx.moveTo(sx - 6*dir, ay - 5);
+      ctx.lineTo(sx + 6*dir, ay);
+      ctx.lineTo(sx - 6*dir, ay + 5);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  function drawWaveZone(sx, ex) {
+    // fundo da zona wave (sem teto/chão distintos — visual etéreo)
+    const ceilY = CEILING_Y();
+    const groundY = GROUND_Y();
+    ctx.fillStyle = 'rgba(168,85,247,0.08)';
+    ctx.fillRect(sx, ceilY, ex - sx, groundY - ceilY);
+    // bordas verticais
+    ctx.strokeStyle = '#a855f7';
+    ctx.lineWidth = 3;
+    ctx.shadowColor = '#a855f7'; ctx.shadowBlur = 15;
+    ctx.beginPath();
+    ctx.moveTo(sx, ceilY); ctx.lineTo(sx, groundY);
+    ctx.moveTo(ex, ceilY); ctx.lineTo(ex, groundY);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    // chevrons decorativos
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    for (let i = -1; i <= 1; i++) {
+      [sx, ex].forEach(x => {
+        const cy = ceilY + (groundY - ceilY)*0.5 + i*36;
+        ctx.beginPath();
+        ctx.moveTo(x - 8, cy - 5);
+        ctx.lineTo(x, cy);
+        ctx.lineTo(x - 8, cy + 5);
+        ctx.closePath();
+        ctx.fill();
+      });
+    }
+  }
+  function drawMiniOrb(cx, cy) {
+    const pulse = 1 + Math.sin(frame * 0.18) * 0.22;
+    const r = 17 * pulse;
+    ctx.fillStyle = 'rgba(6,182,212,0.3)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r + 12, 0, Math.PI*2);
+    ctx.fill();
+    ctx.save();
+    ctx.translate(cx, cy);
+    const grad = ctx.createRadialGradient(0,0,0,0,0,r);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(0.4, '#67e8f9');
+    grad.addColorStop(1, '#0e7490');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = '#000';
+    for (let i = 0; i < 4; i++) {
+      ctx.save();
+      ctx.rotate(i * Math.PI / 2);
+      ctx.beginPath();
+      ctx.moveTo(0, -r * 0.18);
+      ctx.lineTo(-4, -r * 0.48);
+      ctx.lineTo(-2, -r * 0.48);
+      ctx.lineTo(-2, -r * 0.68);
+      ctx.lineTo(2, -r * 0.68);
+      ctx.lineTo(2, -r * 0.48);
+      ctx.lineTo(4, -r * 0.48);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+  function drawMovPlat(sx, gy, o) {
+    const phase = (frame / o.period) * Math.PI * 2;
+    const curY = o.y + Math.sin(phase) * o.amp;
+    const top = gy - curY;
+    ctx.fillStyle = 'rgba(168,85,247,0.15)';
+    ctx.fillRect(sx, gy - (o.y + o.amp), o.w, 2 * o.amp);
+    const g = ctx.createLinearGradient(sx, top, sx, top + 14);
+    g.addColorStop(0, '#a855f7'); g.addColorStop(1, '#6b21a8');
+    ctx.fillStyle = g;
+    ctx.fillRect(sx, top, o.w, 14);
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(sx, top, o.w, 14);
+    const dirY = Math.cos(phase);
+    if (Math.abs(dirY) > 0.3) {
+      ctx.fillStyle = '#fff';
+      const ay = top + 7;
+      const dir = dirY > 0 ? 1 : -1;
+      ctx.beginPath();
+      ctx.moveTo(sx + o.w/2 - 5, ay - 4*dir);
+      ctx.lineTo(sx + o.w/2 + 5, ay - 4*dir);
+      ctx.lineTo(sx + o.w/2, ay + 4*dir);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  function drawLaser(sx, gy, o) {
+    const t = (frame % o.period) / o.period;
+    const active = t < o.duty;
+    const warning = !active && t > 0.85;
+    const ceilY = CEILING_Y();
+    const top = o.h === null ? ceilY : (gy - o.y - o.h);
+    const h = o.h === null ? (gy - ceilY) : o.h;
+    if (active) {
+      ctx.fillStyle = 'rgba(255,0,80,0.25)';
+      ctx.fillRect(sx - 24, top, 48, h);
+      const g = ctx.createLinearGradient(sx - 8, 0, sx + 8, 0);
+      g.addColorStop(0, 'rgba(255,0,80,0.4)');
+      g.addColorStop(0.5, '#fff');
+      g.addColorStop(1, 'rgba(255,0,80,0.4)');
+      ctx.fillStyle = g;
+      ctx.shadowColor = '#ff0050'; ctx.shadowBlur = 20;
+      ctx.fillRect(sx - 8, top, 16, h);
+      ctx.shadowBlur = 0;
+    } else {
+      ctx.fillStyle = warning ? '#fff' : '#ff0050';
+      ctx.fillRect(sx - 12, top - 4, 24, 4);
+      ctx.fillRect(sx - 12, top + h, 24, 4);
+      if (warning) {
+        ctx.strokeStyle = 'rgba(255,0,80,0.6)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 6]);
+        ctx.beginPath();
+        ctx.moveTo(sx, top); ctx.lineTo(sx, top + h);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+  }
+  function drawBallZone(sx, ex) {
+    const ceilY = CEILING_Y();
+    const groundY = GROUND_Y();
+    ctx.fillStyle = 'rgba(251,146,60,0.08)';
+    ctx.fillRect(sx, ceilY, ex - sx, groundY - ceilY);
+    ctx.strokeStyle = '#fb923c';
+    ctx.lineWidth = 3;
+    ctx.shadowColor = '#fb923c'; ctx.shadowBlur = 15;
+    ctx.beginPath();
+    ctx.moveTo(sx, ceilY); ctx.lineTo(sx, groundY);
+    ctx.moveTo(ex, ceilY); ctx.lineTo(ex, groundY);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    for (let i = -1; i <= 1; i++) {
+      [sx, ex].forEach(x => {
+        const cy = ceilY + (groundY - ceilY)*0.5 + i*36;
+        ctx.beginPath();
+        ctx.arc(x, cy, 4, 0, Math.PI*2);
+        ctx.fill();
+      });
+    }
   }
   function drawGFlip(sx, gy) {
     // Portal vermelho/preto, ocupando do chão ao teto
